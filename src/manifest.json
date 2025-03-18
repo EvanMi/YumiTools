@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Yumi Tools",
+  "version": "0.0.3",
+  "description": "Useful Tools for developers. Like translate timestamp to human readable format, copy json from string, multi search",
+  "permissions": ["clipboardWrite", "contextMenus"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>", "file://*/*"],
+      "js": ["jquery/jquery.js", "jquery/jquery.highlight.js", "content.js"],
+      "css": [ "css/highlight.css" ],
+       "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16": "imgs/icon16.png",
+    "32": "imgs/icon32.png",
+    "48": "imgs/icon48.png",
+    "128": "imgs/icon128.png"
+  }
+}
