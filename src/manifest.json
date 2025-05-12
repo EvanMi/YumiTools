@@ -3,7 +3,7 @@
   "name": "Yumi Tools",
   "version": "0.0.3",
   "description": "Useful Tools for developers. Like translate timestamp to human readable format, copy json from string, multi search",
-  "permissions": ["clipboardWrite", "contextMenus"],
+  "permissions": ["clipboardWrite", "contextMenus", "tabs"],
   "background": {
     "service_worker": "background.js",
     "type": "module"

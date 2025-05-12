@@ -119,3 +119,22 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     chrome.tabs.sendMessage(tab.id, { action: info.menuItemId, text: selectedText }, (_response) => { });
   }
 })
+
+// when open tab with same urls, they will be place together
+chrome.tabs.onUpdated.addListener(async function (tabId, props) {
+  if (props && props.status && props.status === 'complete') {
+    const tabs = await chrome.tabs.query({currentWindow: true})
+    
+    for (const tabItem of tabs) {
+      if (tabItem.id === tabId) {
+        for (const tabSib of tabs) {
+          if (tabSib.id !== tabId && tabSib.url === tabItem.url) {
+            await chrome.tabs.move(tabItem.id, {index: tabSib.index + 1})
+            break
+          }
+        }
+        break
+      }
+    }
+  }
+});
