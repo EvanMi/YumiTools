@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Yumi Tools",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Useful Tools for developers. Like translate timestamp to human readable format, copy json from string, multi search",
   "permissions": ["clipboardWrite", "contextMenus", "tabs"],
   "background": {
