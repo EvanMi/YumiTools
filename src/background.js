@@ -23,7 +23,55 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
       sendResponse({ translation: translatedText })
     })
   }
+
+  if (request.action === "translateBase64") {
+    translateBase64(request.text, function (translatedText) {
+      sendResponse({ translation: translatedText })
+    })
+  }
+
+  if (request.action === "translateBase64URLSafe") {
+    translateBase64URLSafe(request.text, function (translatedText) {
+      sendResponse({ translation: translatedText })
+    })
+  }
+
+  if (request.action === "translate01") {
+    const num = parseInt(request.text, 2)
+    sendResponse({translation: num})
+  }
+
+  if (request.action === "translateHex") {
+    const num = parseInt(request.text, 16)
+    sendResponse({translation: num})
+  }
+
 })
+
+function translateBase64(base64, callback) {
+  const binaryString = atob(base64)
+  const utf8Bytes = new Uint8Array([...binaryString].map(char => char.charCodeAt(0)))
+  const decodedString = new TextDecoder().decode(utf8Bytes)
+  callback(decodedString)
+}
+
+function translateBase64URLSafe(base64URLSafe, callback) {
+  let base64String = base64URLSafe.replace(/-/g, '+').replace(/_/g, '/')
+  const padding = 4 - (base64String.length % 4)
+  if (padding !== 4) {
+      base64String += '='.repeat(padding)
+  }
+  try {
+      const binaryString = atob(base64String)
+      const utf8Bytes = new Uint8Array([...binaryString].map(char => char.charCodeAt(0)))
+      const decodedString = new TextDecoder().decode(utf8Bytes)
+
+      callback(decodedString)
+  } catch (error) {
+      console.error("Invalid Base64 string", error)
+  }
+  
+}
 
 function translateJson(json, callback) {
   let res = []
