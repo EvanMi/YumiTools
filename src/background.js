@@ -178,11 +178,17 @@ chrome.tabs.onUpdated.addListener(async function (tabId, props) {
         for (let i = 0; i <= tabs.length - 1; i++) {
           const tabSib = tabs[i]
           if (tabSib.id !== tabId && tabSib.url === tabItem.url) {
-            await chrome.tabs.move(tabSib.id, {index: tabItem.index - 1})
+            await chrome.tabs.update(tabSib.id, {"highlighted": true})
+          } else {
+            await chrome.tabs.update(tabSib.id, {"highlighted": false})
           }
         }
         break
       }
     }
+
+    await chrome.tabs.update(tabId, {"highlighted": true})
+
+
   }
 });
